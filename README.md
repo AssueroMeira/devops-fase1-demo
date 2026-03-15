@@ -12,6 +12,7 @@ A solução contempla os principais itens exigidos nesta etapa:
 - Pipeline de **Integração Contínua (CI)** com **GitHub Actions**
 - **Testes automatizados** integrados ao pipeline
 - **Infraestrutura como Código (IaC)** com **Terraform**
+- **Build automatizado da aplicação** com **Docker**
 - Estrutura organizada para facilitar versionamento, validação e evolução do projeto
 
 Para fins didáticos e de validação técnica, o projeto utiliza uma **API Flask mínima**, com endpoints simples para demonstrar a automação de verificações no pipeline.
@@ -23,7 +24,7 @@ Para fins didáticos e de validação técnica, o projeto utiliza uma **API Flas
 Os objetivos deste projeto são:
 
 1. Implementar um fluxo de **integração contínua** para validar automaticamente o código a cada `push` e `pull request`.
-2. Garantir **feedback rápido** sobre qualidade do código por meio de lint e testes automatizados.
+2. Garantir **feedback rápido** sobre qualidade do código por meio de lint, testes e build automatizado.
 3. Versionar e validar a infraestrutura utilizando **Terraform**, aplicando os princípios de **Infraestrutura como Código**.
 4. Organizar a base do projeto de forma clara, reprodutível e alinhada às práticas introdutórias de DevOps.
 
@@ -41,6 +42,7 @@ Os objetivos deste projeto são:
   - testes automatizados com `pytest`
   - validação de formatação do Terraform
   - validação sintática da infraestrutura definida em Terraform
+  - build da imagem Docker da aplicação
 
 ### 3.2 Requisitos não funcionais
 
@@ -51,6 +53,7 @@ Os objetivos deste projeto são:
   - testes
   - pipeline
   - infraestrutura
+  - arquivos de build/containerização
 - A infraestrutura deve ser validada sem aplicação automática no ambiente real.
 
 ---
@@ -62,7 +65,9 @@ Os objetivos deste projeto são:
 ├── app/                  # aplicação Flask
 ├── tests/                # testes automatizados
 ├── infra/terraform/      # infraestrutura como código (Terraform)
-└── .github/workflows/    # pipeline de CI no GitHub Actions
+├── .github/workflows/    # pipeline de CI no GitHub Actions
+├── Dockerfile            # build da aplicação em container
+└── .dockerignore         # exclusões do contexto de build Docker
 ```
 
 ---
@@ -93,6 +98,12 @@ pytest -q
 python app/main.py
 ```
 
+> Se o comando `source` não funcionar no Git Bash, tente:
+>
+> ```bash
+> . .venv/Scripts/activate
+> ```
+
 ### 5.3 Windows (PowerShell)
 
 ```powershell
@@ -105,16 +116,11 @@ pytest -q
 python app/main.py
 ```
 
-### 5.4 Windows (CMD)
+### 5.4 Teste local de build com Docker (opcional)
 
-```cmd
-python -m venv .venv
-.venv\Scripts\activate.bat
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-ruff check .
-pytest -q
-python app/main.py
+```bash
+docker build -t devops-fase1-demo .
+docker run -p 5000:5000 devops-fase1-demo
 ```
 
 Após executar a aplicação, ela ficará disponível em:
@@ -161,6 +167,14 @@ Responsável por validar a infraestrutura como código. Executa as seguintes eta
 - `terraform fmt -check -recursive`
 - `terraform init -backend=false`
 - `terraform validate`
+
+#### `docker-build`
+
+Responsável pelo **build automatizado da aplicação**. Executa as seguintes etapas:
+
+- checkout do código
+- build da imagem Docker da aplicação
+- validação da imagem gerada
 
 ### 6.3 Objetivo do pipeline
 
@@ -245,7 +259,20 @@ Eles são executados automaticamente no pipeline de CI com `pytest`, garantindo 
 
 ---
 
-## 9) Tecnologias utilizadas
+## 9) Build automatizado
+
+O projeto inclui um **processo real de build automatizado** utilizando Docker.
+
+Arquivos envolvidos:
+
+- `Dockerfile`
+- `.dockerignore`
+
+No pipeline, a etapa `docker-build` gera a imagem da aplicação e valida sua criação, atendendo ao requisito de **build automatizado** dentro da CI.
+
+---
+
+## 10) Tecnologias utilizadas
 
 As principais tecnologias e ferramentas utilizadas neste projeto são:
 
@@ -255,23 +282,25 @@ As principais tecnologias e ferramentas utilizadas neste projeto são:
 - **Ruff**
 - **GitHub Actions**
 - **Terraform**
+- **Docker**
 - **AWS**
 
 ---
 
-## 10) Evidências da entrega
+## 11) Evidências da entrega
 
 Este projeto contempla os itens exigidos para a **Fase 1**:
 
 - documentação de planejamento
 - repositório GitHub configurado
 - pipeline de integração contínua funcional
+- build automatizado da aplicação
 - testes automatizados implementados e integrados
 - scripts de infraestrutura como código com Terraform
 
 ---
 
-## 11) Repositório publicado
+## 12) Repositório publicado
 
 Repositório disponível em:
 
