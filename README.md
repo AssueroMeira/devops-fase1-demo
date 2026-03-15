@@ -1,7 +1,7 @@
 # Template – Fase 1 – DevOps na Prática (Configuração e Automação Inicial)
 
 > **Link do repositório (substituir após publicar no GitHub):**
-> `https://github.com/<seu-usuario>/devops-fase1-demo`
+> `https://github.com/AssueroMeira/devops-fase1-demo`
 
 ## 1) Descrição do projeto
 Este repositório entrega os itens exigidos na **Fase 1** do projeto “DevOps na Prática”:
@@ -86,7 +86,3 @@ allowed_ssh_cidr = "SEU_IP/32"
 public_key       = "ssh-rsa AAAA..."
 ```
 
-## 8) Publicar no GitHub
-1. Crie um repositório vazio no GitHub.
-2. Faça push deste conteúdo.
-3. Atualize o link no topo deste README e no documento de entrega (template da disciplina).
