@@ -12,7 +12,7 @@ def create_app() -> Flask:
     def index():
         return jsonify(
             service="devops-fase1-demo",
-            message="ok",
+            message="ok - deploy automatico",
             environment=os.getenv("APP_ENV", "local"),
         )
 
