@@ -18,5 +18,5 @@ def test_root_has_metadata():
     assert resp.status_code == 200
     data = resp.get_json()
     assert data['service'] == 'devops-fase1-demo'
-    assert data['message'] == 'ok'
+    assert data['message'] == 'ok - deploy automatico'
     assert 'environment' in data
