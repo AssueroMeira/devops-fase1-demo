@@ -1,14 +1,29 @@
-output "instance_public_ip" {
-  description = "IP público da instância EC2."
-  value       = aws_instance.this.public_ip
+output "alb_dns_name" {
+  description = "DNS público do ALB."
+  value       = aws_lb.this.dns_name
 }
 
-output "ssh_command" {
-  description = "Comando sugerido para acesso SSH."
-  value       = "ssh ec2-user@${aws_instance.this.public_ip}"
+output "app_url" {
+  description = "URL pública da aplicação."
+  value       = "http://${aws_lb.this.dns_name}"
 }
 
-output "http_url" {
-  description = "URL HTTP (se enable_http = true)."
-  value       = var.enable_http ? "http://${aws_instance.this.public_ip}" : null
+output "ecs_cluster_name" {
+  description = "Nome do cluster ECS."
+  value       = aws_ecs_cluster.this.name
+}
+
+output "ecs_service_name" {
+  description = "Nome do service ECS."
+  value       = aws_ecs_service.app.name
+}
+
+output "task_definition_arn" {
+  description = "ARN da task definition."
+  value       = aws_ecs_task_definition.app.arn
+}
+
+output "container_image" {
+  description = "Imagem usada no ECS."
+  value       = local.container_image
 }

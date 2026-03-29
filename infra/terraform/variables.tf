@@ -1,11 +1,12 @@
 variable "project_name" {
   type        = string
-  description = "Nome do projeto (usado para nomear recursos)."
+  description = "Nome do projeto."
+  default     = "devops-fase1-demo"
 }
 
 variable "environment" {
   type        = string
-  description = "Ambiente (ex.: staging, dev, prod)."
+  description = "Ambiente."
   default     = "staging"
 }
 
@@ -21,33 +22,40 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "public_subnet_cidr" {
-  type        = string
-  description = "CIDR da subnet pública."
-  default     = "10.0.1.0/24"
+variable "public_subnet_cidrs" {
+  type        = list(string)
+  description = "CIDRs das subnets públicas."
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
-variable "instance_type" {
-  type        = string
-  description = "Tipo da instância EC2."
-  default     = "t3.micro"
+variable "container_port" {
+  type        = number
+  description = "Porta exposta pela aplicação no container."
+  default     = 5000
 }
 
-variable "allowed_ssh_cidr" {
-  type        = string
-  description = "CIDR liberado para SSH (ex.: seu IP/32)."
+variable "desired_count" {
+  type        = number
+  description = "Quantidade desejada de tasks ECS."
+  default     = 1
 }
 
-variable "public_key" {
-  type        = string
-  description = "Chave pública SSH (conteúdo do arquivo id_rsa.pub)."
-  sensitive   = true
+variable "task_cpu" {
+  type        = number
+  description = "CPU da task Fargate."
+  default     = 256
 }
 
-variable "enable_http" {
-  type        = bool
-  description = "Se true, libera porta 80 para acesso público (ex.: Nginx de exemplo)."
-  default     = true
+variable "task_memory" {
+  type        = number
+  description = "Memória da task Fargate."
+  default     = 512
+}
+
+variable "image_tag" {
+  type        = string
+  description = "Tag da imagem no ECR."
+  default     = "latest"
 }
 
 variable "tags" {
